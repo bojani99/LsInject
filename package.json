@@ -1,0 +1,10 @@
+{
+  "name": "TestApp",
+  "description": "MyApp",
+  "dependencies": {
+    "@lightningjs/sdk": "^5.5.1"
+  },
+  "scripts": {
+    "build": "lng build && node copyCustomInspector.js && node injectScript.js && lng serve"
+}
+}
