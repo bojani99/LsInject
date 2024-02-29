@@ -5,6 +5,6 @@
     "@lightningjs/sdk": "^5.5.1"
   },
   "scripts": {
-    "build": "lng build && node copyCustomInspector.js && node injectScript.js && lng serve"
+    "build": "lng dist && node copyCustomInspector.js && node injectScript.js"
 }
 }

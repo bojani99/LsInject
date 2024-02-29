@@ -1,28 +1,27 @@
 const fs = require('fs');
 const path = require('path');
 
-const indexPath = path.join(__dirname, 'build', 'index.html');
-const scriptTag = '\n<script src="customInspector.js"></script>\n';
+// Define the paths
+const indexPath = path.join(__dirname, 'dist', 'es6', 'index.html');
+const scriptTag = '\n<script src="./js/lightning-inspect.js"></script>\n';
 
+// Read the index.html file
 fs.readFile(indexPath, 'utf8', (err, data) => {
     if (err) {
         console.error("Error reading index.html:", err);
         return;
     }
 
-    if (data.includes(scriptTag.trim())) {
+    // Check if the script is already injected to prevent duplication
+    if (data.includes(scriptTag)) {
         console.log("Script already injected.");
         return;
     }
 
-    const bodyStartIndex = data.indexOf('<body>');
-    const firstScriptIndex = data.indexOf('<script', bodyStartIndex);
-    let result;
-    if (firstScriptIndex !== -1 && firstScriptIndex < data.indexOf('</body>')) {
-        result = data.slice(0, firstScriptIndex) + scriptTag + data.slice(firstScriptIndex);
-    } else {
-        result = data.replace('<body>', '<body>' + scriptTag);
-    }
+    // Inject the customInspector.js script before the closing body tag
+    const result = data.replace('</body>', scriptTag);
+
+    // Write the modified content back to index.html
     fs.writeFile(indexPath, result, 'utf8', err => {
         if (err) {
             console.error("Error writing back to index.html:", err);
